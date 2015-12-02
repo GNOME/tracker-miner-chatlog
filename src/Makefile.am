@@ -9,6 +9,8 @@ tracker_miner_chatlog_SOURCES =	\
 	entity.h		\
 	entity-pool.c		\
 	entity-pool.h		\
+	helpers.c		\
+	helpers.h		\
 	room.c			\
 	room.h			\
 	main.c
