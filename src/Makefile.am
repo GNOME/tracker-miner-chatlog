@@ -5,6 +5,8 @@ tracker_miner_chatlog_SOURCES =	\
 	contact.h		\
 	entity.c		\
 	entity.h		\
+	room.c			\
+	room.h			\
 	main.c
 
 tracker_miner_chatlog_CPPFLAGS =	\
