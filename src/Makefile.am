@@ -1,6 +1,8 @@
 libexec_PROGRAMS = tracker-miner-chatlog
 
 tracker_miner_chatlog_SOURCES =	\
+	contact.c		\
+	contact.h		\
 	entity.c		\
 	entity.h		\
 	main.c
