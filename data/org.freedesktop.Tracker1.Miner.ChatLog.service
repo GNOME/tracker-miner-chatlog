@@ -1,0 +1,9 @@
+[D-BUS Service]
+Name=org.freedesktop.Tracker1.Miner.ChatLogs
+Exec=/home/carlos/Build/gnome/libexec/tracker-miner-chatlogs
+
+# Miner details needed for tracker-control
+Path=/org/freedesktop/Tracker1/Miner/ChatLogs
+_DisplayName=Chat logs
+_Comment=Chat logs miner
+
