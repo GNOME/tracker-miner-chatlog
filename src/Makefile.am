@@ -1,6 +1,8 @@
 libexec_PROGRAMS = tracker-miner-chatlog
 
 tracker_miner_chatlog_SOURCES =	\
+	entity.c		\
+	entity.h		\
 	main.c
 
 tracker_miner_chatlog_CPPFLAGS =	\
