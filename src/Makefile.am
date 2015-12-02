@@ -13,6 +13,8 @@ tracker_miner_chatlog_SOURCES =	\
 	helpers.h		\
 	room.c			\
 	room.h			\
+	text-channel.c		\
+	text-channel.h		\
 	main.c
 
 tracker_miner_chatlog_CPPFLAGS =	\
