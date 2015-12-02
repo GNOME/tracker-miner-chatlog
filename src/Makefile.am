@@ -1,6 +1,8 @@
 libexec_PROGRAMS = tracker-miner-chatlog
 
 tracker_miner_chatlog_SOURCES =	\
+	client-factory.c	\
+	client-factory.h	\
 	contact.c		\
 	contact.h		\
 	conversation.c		\
