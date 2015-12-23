@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=Chat logs
-Comment=Chat logs miner
-DBusName=org.freedesktop.Tracker1.Miner.ChatLog
-DBusPath=/org/freedesktop/Tracker1/Miner/ChatLog
