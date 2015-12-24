@@ -34,9 +34,11 @@ typedef struct _TmcObserverPrivate TmcObserverPrivate;
 struct _TmcObserverPrivate {
 	GList *channels;
 	GRegex *recipients_regex;
+	GList *accounts;
 };
 
 enum {
+	ACCOUNT,
 	TEXT_EVENT,
 	N_SIGNALS
 };
@@ -54,6 +56,9 @@ tmc_observer_finalize (GObject *object)
 	g_list_foreach (priv->channels, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->channels);
 	g_regex_unref (priv->recipients_regex);
+
+	g_list_foreach (priv->accounts, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->accounts);
 
 	G_OBJECT_CLASS (tmc_observer_parent_class)->finalize (object);
 }
@@ -221,6 +226,20 @@ register_channel (TmcObserver *observer,
 }
 
 static void
+tmc_observer_manage_account (TmcObserver *observer,
+			     TpAccount   *account)
+{
+	TmcObserverPrivate *priv = tmc_observer_get_instance_private (observer);
+
+	if (g_list_find (priv->accounts, account))
+		return;
+
+	priv->accounts = g_list_prepend (priv->accounts,
+					 g_object_ref (account));
+	g_signal_emit (observer, signals[ACCOUNT], 0, account);
+}
+
+static void
 tmc_observer_observe_channels (TpBaseClient               *client,
 			       TpAccount                  *account,
 			       TpConnection               *connection,
@@ -231,6 +250,8 @@ tmc_observer_observe_channels (TpBaseClient               *client,
 {
 	TmcObserver *self = TMC_OBSERVER (client);
 	GList *l;
+
+	tmc_observer_manage_account (self, account);
 
 	for (l = channels; l != NULL; l = l->next)
 		register_channel (self, l->data);
@@ -257,6 +278,13 @@ tmc_observer_class_init (TmcObserverClass *klass)
 			      0, NULL, NULL,
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, TMC_TYPE_TEXT_EVENT);
+	signals[ACCOUNT] =
+		g_signal_new ("account",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1, TP_TYPE_ACCOUNT);
 }
 
 static void

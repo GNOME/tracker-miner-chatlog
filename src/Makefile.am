@@ -1,6 +1,13 @@
 libexec_PROGRAMS = tracker-miner-chatlog
 
+if HAVE_MIGRATION
+migration_sources =		\
+	logger-dumper.c		\
+	logger-dumper.h
+endif
+
 tracker_miner_chatlog_SOURCES =	\
+	$(migration_sources)	\
 	client-factory.c	\
 	client-factory.h	\
 	contact.c		\
@@ -28,7 +35,9 @@ tracker_miner_chatlog_SOURCES =	\
 tracker_miner_chatlog_CPPFLAGS =	\
     -DG_LOG_DOMAIN=\"Tmc\"	\
     -I$(top_srcdir)/src		\
+    $(LOGGER_CFLAGS)		\
     $(DEPS_CFLAGS)
 
 tracker_miner_chatlog_LDADD =	\
+    $(LOGGER_LIBS)		\
     $(DEPS_LIBS)

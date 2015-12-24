@@ -19,6 +19,8 @@
  * Author: Carlos Garnacho <carlosg@gnome.org>
  */
 
+#include "config.h"
+
 #include "client-factory.h"
 #include "observer.h"
 #include "text-event.h"
@@ -27,7 +29,13 @@
 #include "conversation.h"
 #include "miner.h"
 
+#ifdef HAVE_MIGRATION
+#include "logger-dumper.h"
+#endif
+
 #define GRAPH_URN "urn:uuid:5f15c02c-bede-06c7-413f-7bae48712d3a"
+#define TRANSACTION_LIMIT 10000
+#define TP_MIGRATION_FILENAME "tracker-miner-chatlog.tp-migrated"
 
 typedef struct _TmcMinerPrivate TmcMinerPrivate;
 typedef struct _Transaction Transaction;
@@ -62,6 +70,10 @@ struct _TmcMinerPrivate {
 	TpDBusDaemon *dbus;
 	TmcClientFactory *client_factory;
 	TmcObserver *observer;
+
+#ifdef HAVE_MIGRATION
+	TmcLoggerDumper *dumper;
+#endif
 
 	GHashTable *room_urn_cache;
 	GHashTable *contact_urn_cache;
@@ -104,6 +116,10 @@ tmc_miner_finalize (GObject *object)
 	g_object_unref (priv->observer);
 	g_object_unref (priv->client_factory);
 	g_object_unref (priv->dbus);
+
+#ifdef HAVE_MIGRATION
+	g_object_unref (priv->dumper);
+#endif
 
 	G_OBJECT_CLASS (tmc_miner_parent_class)->finalize (object);
 }
@@ -596,10 +612,27 @@ idle_flush_cb (Transaction *transaction)
 {
 	TmcMiner *miner = transaction->miner;
 	TmcMinerPrivate *priv = tmc_miner_get_instance_private (miner);
+	gint i;
 
-	/* Transfer events to the transaction */
-	transaction->events = priv->events;
-	priv->events = NULL;
+	g_debug ("Starting transaction, %ld elements remaining", priv->events->len);
+
+	if (priv->events->len < TRANSACTION_LIMIT) {
+		/* Transfer events to the transaction */
+		transaction->events = priv->events;
+		priv->events = NULL;
+	} else {
+		/* Make a partial copy */
+		transaction->events =
+			g_ptr_array_new_with_free_func (g_object_unref);
+
+		for (i = 0; i < TRANSACTION_LIMIT; i++) {
+			g_ptr_array_add (transaction->events,
+					 g_object_ref (g_ptr_array_index (priv->events, i)));
+		}
+
+		g_ptr_array_remove_range (priv->events, 0, TRANSACTION_LIMIT);
+	}
+
 	priv->flushing = TRUE;
 	priv->flush_idle_id = 0;
 
@@ -724,6 +757,18 @@ populate_contact_urn_cache (TmcMiner      *miner,
 	return (*error) == NULL;
 }
 
+#ifdef HAVE_MIGRATION
+static void
+observer_account_added (TmcMiner    *miner,
+			TpAccount   *account,
+			TmcObserver *observer)
+{
+	TmcMinerPrivate *priv = tmc_miner_get_instance_private (miner);
+
+	tmc_logger_dumper_add_account (priv->dumper, account);
+}
+#endif
+
 static gboolean
 tmc_miner_initable_init (GInitable     *initable,
                          GCancellable  *cancellable,
@@ -732,6 +777,9 @@ tmc_miner_initable_init (GInitable     *initable,
 	TmcMiner *miner = TMC_MINER (initable);
 	TmcMinerPrivate *priv = tmc_miner_get_instance_private (miner);
 	GInitableIface *parent_iface;
+#ifdef HAVE_MIGRATION
+	gchar *filename;
+#endif
 
 	parent_iface = g_type_interface_peek_parent (G_INITABLE_GET_IFACE (initable));
 
@@ -747,6 +795,23 @@ tmc_miner_initable_init (GInitable     *initable,
 	priv->observer = tmc_observer_new (priv->client_factory);
 	g_signal_connect_swapped (priv->observer, "text-event",
 				  G_CALLBACK (handle_text_event), miner);
+
+#ifdef HAVE_MIGRATION
+	filename = g_build_filename (g_get_user_cache_dir (), "tracker",
+				     "tracker-miner-chatlog.tp-migration", NULL);
+
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
+		priv->dumper = tmc_logger_dumper_new ();
+		g_signal_connect_swapped (priv->dumper, "text-event",
+					  G_CALLBACK (handle_text_event), miner);
+		g_signal_connect_swapped (priv->observer, "account",
+					  G_CALLBACK (observer_account_added), miner);
+
+		g_file_set_contents (filename, "", -1, NULL);
+	}
+
+	g_free (filename);
+#endif
 
 	if (!tp_base_client_register (TP_BASE_CLIENT (priv->observer), error))
 		return FALSE;

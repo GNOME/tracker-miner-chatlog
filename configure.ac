@@ -32,6 +32,30 @@ IT_PROG_INTLTOOL([0.40.0])
 # dependencies
 PKG_CHECK_MODULES(DEPS, [tracker-miner-1.0 telepathy-glib])
 
+# optional dependencies
+AC_ARG_ENABLE(migration,
+              AS_HELP_STRING([--enable-migration],
+                             [enable migration from telepathy-logger]),
+              [enable_migration=$enableval],
+              [enable_migration=yes])
+
+if test "x$enable_migration" != "xno" ; then
+   PKG_CHECK_MODULES(LOGGER,
+		     [telepathy-logger-0.2],
+                     [have_logger=yes],
+                     [have_logger=no])
+
+   AC_SUBST(LOGGER_CFLAGS)
+   AC_SUBST(LOGGER_LIBS)
+   AM_CONDITIONAL(HAVE_MIGRATION, test "$have_logger" = "yes")
+
+   if test "$have_logger" != "no" ; then
+      AC_DEFINE(HAVE_MIGRATION, [], [Define if we have telepathy-logger migration])
+   fi
+else
+   have_logger=no
+fi
+
 AC_CONFIG_FILES([
 Makefile
 data/Makefile
@@ -39,3 +63,7 @@ src/Makefile
 po/Makefile.in
 ])
 AC_OUTPUT
+
+echo "
+     Telepathy-logger migration: $have_logger
+"
