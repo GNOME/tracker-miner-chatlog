@@ -136,7 +136,8 @@ query_operation_free (QueryOperation *op)
 }
 
 static TmcEntity *
-translate_contact (TplEntity *entity)
+translate_contact (TplEntity *entity,
+		   TpAccount *account)
 {
 	TmcEntityPool *pool = tmc_entity_pool_contacts_get ();
 	TmcEntity *contact;
@@ -152,7 +153,7 @@ translate_contact (TplEntity *entity)
 
 		if (!contact) {
 			contact = tmc_contact_new (tpl_entity_get_alias (entity),
-						   "irc",
+						   tp_account_get_protocol_name (account),
 						   tpl_entity_get_identifier (entity));
 			tmc_entity_pool_add (pool, contact);
 		}
@@ -162,7 +163,8 @@ translate_contact (TplEntity *entity)
 }
 
 static TmcEntity *
-translate_channel (QueryOperation *op)
+translate_channel (QueryOperation *op,
+		   TpAccount      *account)
 {
 	TmcEntityPool *pool = tmc_entity_pool_channels_get ();
 	TmcEntity *channel;
@@ -175,11 +177,12 @@ translate_channel (QueryOperation *op)
 		case TPL_ENTITY_SELF:
 			return NULL;
 		case TPL_ENTITY_CONTACT:
-			channel = tmc_conversation_new (TMC_CONTACT (translate_contact (op->entity)));
+			channel = tmc_conversation_new (TMC_CONTACT (translate_contact (op->entity,
+											account)));
 			break;
 		case TPL_ENTITY_ROOM:
 			channel = tmc_room_new (tpl_entity_get_alias (op->entity),
-					"irc");
+						tp_account_get_protocol_name (account));
 			break;
 		}
 
@@ -204,9 +207,9 @@ tmc_logger_dumper_emit_event (TmcLoggerDumper *dumper,
 	priv = tmc_logger_dumper_get_instance_private (dumper);
 	op = priv->operations->data;
 
-	channel = translate_channel (op);
-	from = translate_contact (tpl_event_get_sender (TPL_EVENT (event)));
-	to = translate_contact (tpl_event_get_receiver (TPL_EVENT (event)));
+	channel = translate_channel (op, account);
+	from = translate_contact (tpl_event_get_sender (TPL_EVENT (event)), account);
+	to = translate_contact (tpl_event_get_receiver (TPL_EVENT (event)), account);
 
 	if (to) {
 		to_list = g_list_prepend (to_list, to);
