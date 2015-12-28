@@ -32,16 +32,17 @@ tmc_ensure_contact (TpContact *contact)
 	TmcEntity *entity;
 	const gchar *name;
 
-	name = tp_contact_get_alias (contact);
+	name = tp_contact_get_identifier (contact);
 	entity = tmc_entity_pool_lookup (contacts, name);
 
 	if (!entity) {
 		TpConnection *connection;
-		const gchar *protocol;
+		const gchar *protocol, *identifier;
 
 		connection = tp_contact_get_connection (contact);
 		protocol = tp_connection_get_protocol_name (connection);
-		entity = tmc_contact_new (name, protocol);
+		identifier = tp_contact_get_identifier (contact);
+		entity = tmc_contact_new (name, protocol, identifier);
 		tmc_entity_pool_add (contacts, entity);
 	}
 

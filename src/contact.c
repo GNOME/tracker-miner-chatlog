@@ -41,11 +41,13 @@ tmc_contact_init (TmcContact *contact)
 
 TmcEntity *
 tmc_contact_new (const gchar *nickname,
-                 const gchar *protocol)
+                 const gchar *protocol,
+                 const gchar *identifier)
 {
 	return g_object_new (TMC_TYPE_CONTACT,
 			     "name", nickname,
 			     "protocol", protocol,
+			     "identifier", identifier,
 			     NULL);
 }
 

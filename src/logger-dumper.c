@@ -148,11 +148,12 @@ translate_contact (TplEntity *entity)
 	case TPL_ENTITY_SELF:
 		return tmc_contact_self_get ();
 	case TPL_ENTITY_CONTACT:
-		contact = tmc_entity_pool_lookup (pool, tpl_entity_get_alias (entity));
+		contact = tmc_entity_pool_lookup (pool, tpl_entity_get_identifier (entity));
 
 		if (!contact) {
 			contact = tmc_contact_new (tpl_entity_get_alias (entity),
-						   "irc");
+						   "irc",
+						   tpl_entity_get_identifier (entity));
 			tmc_entity_pool_add (pool, contact);
 		}
 
@@ -166,7 +167,7 @@ translate_channel (QueryOperation *op)
 	TmcEntityPool *pool = tmc_entity_pool_channels_get ();
 	TmcEntity *channel;
 
-	channel = tmc_entity_pool_lookup (pool, tpl_entity_get_alias (op->entity));
+	channel = tmc_entity_pool_lookup (pool, tpl_entity_get_identifier (op->entity));
 
 	if (!channel) {
 		switch (tpl_entity_get_entity_type (op->entity)) {

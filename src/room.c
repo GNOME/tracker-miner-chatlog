@@ -46,5 +46,6 @@ tmc_room_new (const gchar *name,
 	return g_object_new (TMC_TYPE_ROOM,
 			     "name", name,
 	                     "protocol", protocol,
+			     "identifier", name,
 			     NULL);
 }

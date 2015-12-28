@@ -26,12 +26,14 @@ typedef struct _TmcEntityPrivate TmcEntityPrivate;
 struct _TmcEntityPrivate {
 	gchar *name;
 	gchar *protocol;
+	gchar *identifier;
 };
 
 enum {
 	PROP_0,
 	PROP_NAME,
 	PROP_PROTOCOL,
+	PROP_IDENTIFIER,
 	PROP_LAST
 };
 
@@ -47,6 +49,7 @@ tmc_entity_finalize (GObject *object)
 
 	g_clear_pointer (&priv->name, g_free);
 	g_clear_pointer (&priv->protocol, g_free);
+	g_clear_pointer (&priv->identifier, g_free);
 
 	G_OBJECT_CLASS (tmc_entity_parent_class)->finalize (object);
 }
@@ -69,6 +72,10 @@ tmc_entity_set_property (GObject      *object,
 		g_clear_pointer (&priv->protocol, g_free);
 		priv->protocol = g_value_dup_string (value);
 		break;
+	case PROP_IDENTIFIER:
+		g_clear_pointer (&priv->identifier, g_free);
+		priv->identifier = g_value_dup_string (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -89,6 +96,9 @@ tmc_entity_get_property (GObject    *object,
 		break;
 	case PROP_PROTOCOL:
 		g_value_set_string (value, priv->protocol);
+		break;
+	case PROP_IDENTIFIER:
+		g_value_set_string (value, priv->identifier);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -115,6 +125,13 @@ tmc_entity_class_init (TmcEntityClass *klass)
 		g_param_spec_string ("protocol",
 				     "Protocol",
 				     "Protocol",
+				     NULL,
+				     G_PARAM_READWRITE |
+				     G_PARAM_CONSTRUCT_ONLY);
+	props[PROP_IDENTIFIER] =
+		g_param_spec_string ("identifier",
+				     "Identifier",
+				     "Identifier",
 				     NULL,
 				     G_PARAM_READWRITE |
 				     G_PARAM_CONSTRUCT_ONLY);
@@ -149,4 +166,16 @@ tmc_entity_get_protocol (TmcEntity *entity)
 	priv = tmc_entity_get_instance_private (entity);
 
 	return priv->protocol;
+}
+
+const gchar *
+tmc_entity_get_identifier (TmcEntity *entity)
+{
+	TmcEntityPrivate *priv;
+
+	g_return_val_if_fail (TMC_IS_ENTITY (entity), NULL);
+
+	priv = tmc_entity_get_instance_private (entity);
+
+	return priv->identifier;
 }

@@ -80,7 +80,7 @@ tmc_entity_pool_add (TmcEntityPool *pool,
 	priv = tmc_entity_pool_get_instance_private (pool);
 
 	g_hash_table_insert (priv->entities,
-			     (gpointer) tmc_entity_get_name (entity),
+			     (gpointer) tmc_entity_get_identifier (entity),
 			     entity);
 }
 
@@ -96,7 +96,7 @@ tmc_entity_pool_remove (TmcEntityPool *pool,
 	priv = tmc_entity_pool_get_instance_private (pool);
 
 	g_hash_table_remove (priv->entities,
-			     tmc_entity_get_name (entity));
+			     tmc_entity_get_identifier (entity));
 }
 
 TmcEntity *

@@ -121,6 +121,7 @@ tmc_conversation_new (TmcContact *peer)
 	return g_object_new (TMC_TYPE_CONVERSATION,
 	                     "name", tmc_entity_get_name (TMC_ENTITY (peer)),
 	                     "protocol", tmc_entity_get_protocol (TMC_ENTITY (peer)),
+			     "identifier", tmc_entity_get_identifier (TMC_ENTITY (peer)),
 	                     "peer", peer,
 	                     NULL);
 }

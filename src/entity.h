@@ -34,5 +34,6 @@ struct _TmcEntityClass {
 
 const gchar * tmc_entity_get_name     (TmcEntity *entity);
 const gchar * tmc_entity_get_protocol (TmcEntity *entity);
+const gchar * tmc_entity_get_identifier (TmcEntity *entity);
 
 #endif /* __TMC_ENTITY_H__ */
