@@ -1,0 +1,29 @@
+# German translation for tracker-miner-chatlog.
+# Copyright (C) 2016 tracker-miner-chatlog's COPYRIGHT HOLDER
+# This file is distributed under the same license as the tracker-miner-chatlog package.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tracker-miner-chatlog master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-03 15:01+0000\n"
+"PO-Revision-Date: 2016-01-03 16:25+0100\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"X-Generator: Poedit 1.8.6\n"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:1
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:1
+msgid "Chat logs"
+msgstr "Unterhaltungsprotokolle"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:2
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:2
+msgid "Chat logs miner"
+msgstr "Online-Datensammler für Unterhaltungsprotokolle"
