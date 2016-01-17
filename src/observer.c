@@ -73,8 +73,10 @@ message_guess_recipients (TmcObserver *observer,
 	GMatchInfo *match_info;
 	gboolean first = TRUE;
 
-	if (!g_regex_match (priv->recipients_regex, text, 0, &match_info))
+	if (!g_regex_match (priv->recipients_regex, text, 0, &match_info)) {
+		g_match_info_free (match_info);
 		return NULL;
+	}
 
 	while (g_match_info_matches (match_info)) {
 		TmcEntity *contact;
@@ -94,9 +96,13 @@ message_guess_recipients (TmcObserver *observer,
 							   name);
 		if (contact)
 			recipients = g_list_prepend (recipients, contact);
+
+		g_free (name);
 	}
 
 	/* FIXME: find pings to self on all the string */
+
+	g_match_info_free (match_info);
 
 	return recipients;
 }
