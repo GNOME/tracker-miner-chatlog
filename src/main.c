@@ -20,6 +20,7 @@
  */
 
 #include <glib-unix.h>
+#include "entity-pool.h"
 #include "miner.h"
 
 static gboolean
@@ -67,5 +68,9 @@ main (int   argc,
 	loop = g_main_loop_new (NULL, FALSE);
 	initialize_signal_handler (loop);
 	g_main_loop_run (loop);
+
+	g_object_unref (tmc_entity_pool_contacts_get ());
+	g_object_unref (tmc_entity_pool_channels_get ());
+
 	return 0;
 }
