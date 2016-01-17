@@ -195,7 +195,6 @@ translate_channel (QueryOperation *op,
 static void
 tmc_logger_dumper_emit_event (TmcLoggerDumper *dumper,
 			      TpAccount       *account,
-			      TplEntity       *entity,
 			      TplTextEvent    *event)
 {
 	TmcLoggerDumperPrivate *priv;
@@ -240,7 +239,7 @@ get_date_events_async_cb (GObject      *object,
 	} else {
 		for (l = events; l; l = l->next) {
 			tmc_logger_dumper_emit_event (dumper, op->account,
-						      op->entity, l->data);
+						      l->data);
 			g_object_unref (l->data);
 		}
 
