@@ -219,6 +219,9 @@ tmc_logger_dumper_emit_event (TmcLoggerDumper *dumper,
 					 tpl_event_get_timestamp (TPL_EVENT (event)));
 	g_signal_emit (dumper, signals[TEXT_EVENT], 0, text_event);
 	g_object_unref (text_event);
+
+	/* entities are already owned by their respective pools */
+	g_list_free (to_list);
 }
 
 static void
