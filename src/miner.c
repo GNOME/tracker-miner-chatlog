@@ -439,6 +439,7 @@ map_results (TmcMiner  *miner,
 
 		miner_set_entity_urn (miner, entity, urn);
 
+		g_variant_unref (elem);
 		g_variant_unref (child);
 		g_free (name);
 		g_free (urn);
