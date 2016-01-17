@@ -76,10 +76,10 @@ tmc_text_event_set_property (GObject      *object,
 
 	switch (prop_id) {
 	case PROP_CHANNEL:
-		g_set_object (&priv->channel, g_value_dup_object (value));
+		g_set_object (&priv->channel, g_value_get_object (value));
 		break;
 	case PROP_FROM:
-		g_set_object (&priv->from, g_value_dup_object (value));
+		g_set_object (&priv->from, g_value_get_object (value));
 		break;
 	case PROP_TEXT:
 		g_clear_pointer (&priv->text, g_free);
