@@ -19,7 +19,34 @@
  * Author: Carlos Garnacho <carlosg@gnome.org>
  */
 
+#include <glib-unix.h>
 #include "miner.h"
+
+static gboolean
+signal_handler (gpointer user_data)
+{
+	GMainLoop *loop = user_data;
+	static gboolean in_loop = FALSE;
+
+	/* Die if we get re-entrant signals handler calls */
+	if (in_loop) {
+		_exit (EXIT_FAILURE);
+	}
+
+	in_loop = TRUE;
+	g_main_loop_quit (loop);
+
+	return G_SOURCE_CONTINUE;
+}
+
+static void
+initialize_signal_handler (GMainLoop *loop)
+{
+#ifndef G_OS_WIN32
+	g_unix_signal_add (SIGTERM, signal_handler, loop);
+	g_unix_signal_add (SIGINT, signal_handler, loop);
+#endif /* G_OS_WIN32 */
+}
 
 int
 main (int   argc,
@@ -38,6 +65,7 @@ main (int   argc,
 	}
 
 	loop = g_main_loop_new (NULL, FALSE);
+	initialize_signal_handler (loop);
 	g_main_loop_run (loop);
 	return 0;
 }
