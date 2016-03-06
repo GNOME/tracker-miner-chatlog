@@ -1,0 +1,30 @@
+# Hungarian translation for tracker-miner-chatlog.
+# Copyright (C) 2016 Free Software Foundation, Inc.
+# This file is distributed under the same license as the tracker-miner-chatlog package.
+#
+# Balázs Úr <urbalazs@gmail.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: tracker-miner-chatlog master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-06 14:57+0000\n"
+"PO-Revision-Date: 2016-03-07 00:22+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:1
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:1
+msgid "Chat logs"
+msgstr "Csevegésnaplók"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:2
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:2
+msgid "Chat logs miner"
+msgstr "Csevegésnaplók bányász"
+
