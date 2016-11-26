@@ -19,6 +19,9 @@
  * Author: Carlos Garnacho <carlosg@gnome.org>
  */
 
+#include "config.h"
+
+#include <locale.h>
 #include <glib-unix.h>
 #include "entity-pool.h"
 #include "miner.h"
@@ -56,6 +59,8 @@ main (int   argc,
 	TrackerMiner *miner;
 	GMainLoop *loop;
 	GError *error = NULL;
+
+	setlocale (LC_ALL, "");
 
 	miner = tmc_miner_new (&error);
 
