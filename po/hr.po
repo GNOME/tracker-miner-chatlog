@@ -1,0 +1,29 @@
+# Croatian translation for tracker-miner-chatlog.
+# Copyright (C) 2018 tracker-miner-chatlog's COPYRIGHT HOLDER
+# This file is distributed under the same license as the tracker-miner-chatlog package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tracker-miner-chatlog master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-25 03:27+0000\n"
+"PO-Revision-Date: 2018-03-27 14:49+0200\n"
+"Language-Team: Croatian <hr@li.org>\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:1
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:1
+msgid "Chat logs"
+msgstr "Zapisi razgovora"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:2
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:2
+msgid "Chat logs miner"
+msgstr "Zapisi razgovora rudara"
