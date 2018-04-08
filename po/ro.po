@@ -1,0 +1,29 @@
+# Romanian translation for tracker-miner-chatlog.
+# Copyright (C) 2018 tracker-miner-chatlog's COPYRIGHT HOLDER
+# This file is distributed under the same license as the tracker-miner-chatlog package.
+# Floren <>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tracker-miner-chatlog master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-27 12:50+0000\n"
+"PO-Revision-Date: 2018-04-05 17:56+0300\n"
+"Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);;\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:1
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:1
+msgid "Chat logs"
+msgstr "Istoric discuție"
+
+#: ../data/org.freedesktop.Tracker1.Miner.ChatLog.service.in.h:2
+#: ../data/tracker-miner-chatlog.desktop.in.in.h:2
+msgid "Chat logs miner"
+msgstr "Miner istoric de discuție"
