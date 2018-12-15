@@ -10,7 +10,7 @@
   <homepage rdf:resource="https://wiki.gnome.org/Projects/Tracker" />
   <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/tracker-list" />
   <download-page rdf:resource="http://download.gnome.org/sources/tracker/" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=tracker" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/tracker-miner-chatlog/issues/" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#core" />
   <programming-language>C</programming-language>
 
